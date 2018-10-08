@@ -1,0 +1,1 @@
+A Spring AMQP Message Converter that supports PGP/GnuPG/OpenPGP style message singing and validation.
