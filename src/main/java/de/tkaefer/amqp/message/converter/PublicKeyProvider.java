@@ -9,10 +9,9 @@ import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Cleanup;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
@@ -28,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 @Builder
+@Slf4j
 public class PublicKeyProvider {
 
     private static final String HKP_SERVER_URL_TEMPLATE = "{0}/pks/lookup?op=get&search=0x{1}&options=mr";
@@ -61,6 +61,7 @@ public class PublicKeyProvider {
             InputStream inputStream = new FileInputStream(file);
             return getPgpPublicKey(keyId, inputStream);
         } else {
+            log.warn("Public key not found in directory " + publicKeysPath);
             return Optional.empty();
         }
 
