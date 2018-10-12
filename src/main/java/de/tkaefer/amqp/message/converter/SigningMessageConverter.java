@@ -3,8 +3,10 @@ package de.tkaefer.amqp.message.converter;
 import java.io.IOException;
 import java.util.Objects;
 
+import com.google.common.annotations.VisibleForTesting;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPrivateKey;
@@ -16,7 +18,8 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.amqp.support.converter.MessageConverter;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Slf4j
 public class SigningMessageConverter implements MessageConverter {
@@ -80,7 +83,8 @@ public class SigningMessageConverter implements MessageConverter {
         return jackson2JsonMessageConverter.fromMessage(message);
     }
 
-    private PublicKeyProvider getPublicKeyProvider() {
+    @VisibleForTesting
+    PublicKeyProvider getPublicKeyProvider() {
         if (Objects.isNull(publicKeyProvider)) {
             publicKeyProvider = PublicKeyProvider
                     .builder()
